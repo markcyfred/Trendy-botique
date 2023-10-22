@@ -31,10 +31,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
-    Route::match(['get', 'post'], 'login', 'AdminController@login');
-    Route::group(['dashboard','AdminController@dashboard']);
-    });
+Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
+    // Admin login route
+    Route::match(['get','post'],'login', 'AdminController@login');
+    
+    // Admin dashboard route
+    Route::get('dashboard', 'AdminController@dashboard');
+});
+
 
 //Adim login Route without admin group
 Route::get('admin/login', 'App\Http\Controllers\Admin\AdminController@login');
